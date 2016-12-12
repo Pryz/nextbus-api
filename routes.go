@@ -10,6 +10,7 @@ import (
 	"strings"
 
 	"github.com/gorilla/mux"
+	// Fork of github.com/dinedal/nextbus
 	"github.com/Pryz/nextbus"
 )
 
