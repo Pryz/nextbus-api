@@ -3,9 +3,22 @@ package main
 import (
 	"log"
 	"time"
+	"strconv"
 
 	"gopkg.in/redis.v5"
 )
+
+
+// Create a Redis Client
+func initRedis(hostname string, port int) *redis.Client {
+	addr := hostname + ":" + strconv.Itoa(port)
+	log.Printf("Start Redis connection to %s", addr)
+	return redis.NewClient(&redis.Options{
+		Addr: addr,
+		Password: "",
+		DB: 0,
+	})
+}
 
 
 func writeToCache(request string, payload []byte, ttlSec int64) {

@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"net/http"
+	"flag"
 
 	"github.com/gorilla/mux"
 	"gopkg.in/redis.v5"
@@ -23,6 +24,8 @@ var (
 	router *mux.Router
 	routes []string
 	redisDB *redis.Client
+	redisHostname string
+	redisPort int
 )
 
 
@@ -38,8 +41,14 @@ func getEndpoints(route *mux.Route, router *mux.Router, ancestors []*mux.Route) 
 
 func main() {
 
+	// Flags
+	flag.StringVar(&redisHostname, "redis-hostname",  "localhost", "Redis Hostname")
+	flag.IntVar(&redisPort, "redis-port", 6379, "Redis Port")
+
+	flag.Parse()
+
 	// Initiate redis connection for statistics and cache
-	redisDB = initRedis()
+	redisDB = initRedis(redisHostname, redisPort)
 
 	// Setup API routes
 	router = mux.NewRouter().StrictSlash(true)
